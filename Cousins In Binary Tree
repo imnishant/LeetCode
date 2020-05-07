@@ -1,0 +1,60 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class result
+{
+    int depth;
+    TreeNode parent;
+    result()
+    {
+        depth = 0;
+        parent = null;
+    }
+}
+class Solution {
+    void findDepth(TreeNode rootParent, TreeNode root, int val, int level, result res)
+    {
+        if(root == null)
+            return;
+        
+        if(root.val == val)
+        {
+            res.parent = rootParent;
+            res.depth = level;
+        }
+        
+        findDepth(root, root.left, val, level + 1, res);
+        if(res.depth != 0)
+            return;
+        
+        findDepth(root, root.right, val, level + 1, res);
+    }
+    
+    
+    public boolean isCousins(TreeNode root, int x, int y) {
+        
+        result xRes = new result();
+        result yRes = new result();
+        
+        findDepth(null, root, x, 0, xRes);
+        findDepth(null, root, y, 0, yRes);
+        
+        if(xRes.depth == yRes.depth && xRes.parent != yRes.parent)
+            return true;
+        
+        return false;
+        
+    }
+}
