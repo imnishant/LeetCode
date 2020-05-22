@@ -1,0 +1,36 @@
+class Solution {
+    public String frequencySort(String s) {
+        HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
+        
+        for(int i=0 ; i<s.length() ; i++)
+        {
+            char ch = s.charAt(i);
+            
+            if(hm.containsKey(ch))
+                hm.put(ch, hm.get(ch) + 1);
+            else
+                hm.put(ch, 1);
+        }
+        
+        ArrayList<Map.Entry<Character, Integer>> al = new ArrayList<Map.Entry<Character, Integer>>(hm.entrySet());
+        Comparator<Map.Entry<Character, Integer>> comp = new Comparator<Map.Entry<Character, Integer>>(){
+            
+            @Override
+            public int compare(Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2)
+            {
+                return o2.getValue() - o1.getValue();
+            }
+        };
+        
+        Collections.sort(al, comp);
+        
+        StringBuffer sb = new StringBuffer();
+        for(Map.Entry<Character, Integer> me: al)
+        {
+            for(int i=0 ; i<me.getValue() ; i++)
+                sb.append(me.getKey());
+        }
+        
+        return sb.toString();
+    }
+}
