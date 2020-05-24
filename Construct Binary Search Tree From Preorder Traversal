@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Index
+{
+    int index;
+    Index()
+    {
+        index = 0;
+    }
+}
+class Solution 
+{
+    TreeNode constructBST(int[] preorder, int key, int min, int max, Index curIndex)
+    {
+        if(curIndex.index >= preorder.length)
+            return null;
+        
+        TreeNode root = null;
+        
+        if(key > min && key < max)
+        {
+            root = new TreeNode(key);
+            curIndex.index++;
+            
+            if(curIndex.index < preorder.length)
+                root.left = constructBST(preorder, preorder[curIndex.index], min, key, curIndex);
+            
+            if(curIndex.index < preorder.length)
+                root.right = constructBST(preorder, preorder[curIndex.index], key, max, curIndex);
+            
+        }
+        
+        return root;
+    }
+    public TreeNode bstFromPreorder(int[] preorder) {
+        return constructBST(preorder, preorder[0], Integer.MIN_VALUE, Integer.MAX_VALUE, new Index());
+    }
+}
